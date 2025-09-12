@@ -1,0 +1,69 @@
+// Färgvariabler för Nyponbacken Äggtracker
+
+// Huvudfärger
+$primary-color: #8bc34a;       // Huvudfärg, grön
+$primary-dark: #7cb342;        // Mörkare variant av huvudfärg
+$primary-light: #aed581;       // Ljusare variant av huvudfärg
+$primary-very-light: #f1f8e9;  // Mycket ljus variant för bakgrunder
+
+// Accentfärger
+$accent-color: #4caf50;        // Accentfärg, grön
+$accent-dark: #3b8f40;         // Mörkare variant av accentfärg
+$accent-light: #a5d6a7; 
+
+$accent-beige: #F5F5DC;          // Ljusare variant av accentfärg
+
+// Komplementfärger
+$secondary-color: #607d8b;     // Sekundär färg, blågrå
+$secondary-dark: #546e7a;      // Mörkare variant av sekundär färg
+$secondary-light: #b0bec5;     // Ljusare variant av sekundär färg
+
+// Status- och signalfärger
+$success-color: #8bc34a;       // Lyckad åtgärd
+$error-color: #f44336;         // Fel/varning
+$error-light: rgba(244, 67, 54, 0.1); // Ljus bakgrund för felmeddelanden
+$warning-color: #ff9800;       // Varning
+$info-color: #2196f3;          // Information
+
+// Neutrala färger
+$text-color: #333333;          // Textfärg
+$text-light: #757575;          // Ljusare textfärg
+$text-very-light: #dddddd;     // Mycket ljusare textfärg
+$background-color: rgba(255, 255, 255, 0.05); // Bakgrundsfärg för kort
+$border-color: #dddddd;        // Kantfärg
+$divider-color: rgba(255, 255, 255, 0.2); // Avdelare
+
+// Knappar och interaktiva element
+$button-primary-bg: $primary-color;
+$button-primary-text: white;
+$button-secondary-bg: $secondary-color;
+$button-secondary-text: white;
+$button-danger-bg: $error-color;
+$button-danger-text: white;
+$button-export-bg: $accent-color;
+$button-export-text: white;
+
+// Specifika komponentfärger
+$form-bg: rgba(139, 195, 74, 0.1);
+$chart-bar-gradient: linear-gradient(to top, $primary-color, #cddc39);
+$table-hover-bg: rgba(139, 195, 74, 0.2);
+$filter-section-bg: rgba(255, 255, 255, 0.05);
+
+// Mixins för återkommande mönster
+@mixin success-message {
+  background-color: rgba($success-color, 0.1);
+  border-left: 4px solid $success-color;
+  color: $success-color;
+}
+
+@mixin error-message {
+  background-color: rgba($error-color, 0.1);
+  border-left: 4px solid $error-color;
+  color: $error-color;
+}
+
+@mixin card-style {
+  background-color: $background-color;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+}

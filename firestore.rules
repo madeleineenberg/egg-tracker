@@ -1,0 +1,81 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Hjälpfunktion för att validera äggdata
+    function isValidEggEntry(data) {
+      return data.size() >= 4 && 
+             data.count is number && 
+             data.count > 0 && 
+             data.count <= 100 && 
+             data.date is timestamp && 
+             data.userId is string && 
+             data.userName is string;
+    }
+
+    // Kontrollera om användare har admin-roll
+    function isAdmin() {
+      return request.auth != null && 
+             request.auth.token.email in [
+               'madeleineenberg@gmail.com'
+               // Lägg till fler admin-emails här
+             ];
+    }
+    
+    // Kontrollera om användare är tillåten att använda systemet
+    function isAllowedUser() {
+      return request.auth != null && 
+             (isAdmin() || exists(/databases/$(database)/documents/allowedUsers/$(request.auth.token.email.lower())));
+    }
+
+    // Grundläggande behörighetsregel
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Require users to be authenticated to read all egg entries
+    match /eggEntries/{entry} {
+      // Allow anyone to read all entries (statistics are public)
+      allow read: if true;
+      
+      // Allow only allowed users to create entries with their own user ID and valid data
+      allow create: if isAllowedUser() && 
+                     request.resource.data.userId == request.auth.uid &&
+                     isValidEggEntry(request.resource.data) &&
+                     // Kontrollera att datumet inte är i framtiden
+                     request.resource.data.date <= request.time;
+      
+      // Allow only allowed users to update or delete only their own entries
+      allow update: if isAllowedUser() && 
+                     resource.data.userId == request.auth.uid &&
+                     isValidEggEntry(request.resource.data) &&
+                     // Vid uppdatering, säkerställ att userId inte ändras
+                     request.resource.data.userId == resource.data.userId;
+
+      allow delete: if isAllowedUser() && 
+                     (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // Tillåtna användare - admins kan läsa och skriva, autentiserade användare kan läsa för att kontrollera sina rättigheter
+    match /allowedUsers/{email} {
+      allow read: if isAdmin() || (isSignedIn() && request.auth.token.email.lower() == email);
+      allow write: if isAdmin();
+    }
+    
+    // Tillåt queries på allowedUsers för autentiserade användare att kontrollera sina egna rättigheter
+    match /allowedUsers {
+      allow read: if isSignedIn() && request.auth != null;
+    }
+    
+    // Admins collection för framtida användning
+    match /admins/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+    
+    // Användarstatistik (om du vill implementera det senare)
+    match /userStats/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && request.auth.uid == userId || isAdmin();
+    }
+  }
+}

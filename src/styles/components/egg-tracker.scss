@@ -1,0 +1,660 @@
+@use '../variables' as *;
+
+.egg-tracker {
+  margin-top: 0;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  font-family: 'Nunito', sans-serif;
+  width: 100%;
+  /* Tar bort alla custom width settings eftersom main hanterar detta nu */
+  
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 1rem;
+  }
+  
+  h2 {
+    margin-top: 0;
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  h3 {
+    color: $primary-color;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.4em;
+    font-weight: 600;
+  }
+  
+  .egg-tracker-authenticated {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    
+    .user-details {
+      text-align: left;
+      
+      p {
+        margin: 0;
+      }
+      
+      .user-name {
+        font-weight: bold;
+        margin-bottom: 0.3rem;
+      }
+      
+      .user-total {
+        font-size: 0.9rem;
+        color: $text-very-light;
+        
+        .highlight {
+          color: $primary-color;
+          font-weight: bold;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+  
+  .egg-form {
+    background-color: $form-bg;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 480px) {
+      padding: 1rem;
+    }
+    
+    .egg-input-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-end;
+      
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 200px;
+        
+        label {
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+          font-family: 'Nunito', sans-serif;
+        }
+        
+        input {
+          padding: 0.6rem;
+          border-radius: 4px;
+          border: 1px solid $border-color;
+          background-color: rgba(255, 255, 255, 0.9);
+          color: $text-color;
+          font-size: 1rem;
+          font-family: 'Nunito', sans-serif;
+          
+          &:disabled {
+            opacity: 0.7;
+            background-color: rgba(200, 200, 200, 0.3);
+          }
+        }
+      }
+      
+      .form-buttons {
+        display: flex;
+        gap: 0.5rem;
+        
+        button {
+          min-width: 100px;
+        }
+      }
+    }
+  }
+  
+  .egg-statistics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    
+    @media (max-width: 1900px) {
+      grid-template-columns: 1fr;
+    }
+    
+    .egg-history {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      min-width: 0;
+      overflow: hidden;
+       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      
+      .date-filter {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+        // background-color: $filter-section-bg;
+        border-radius: 6px;
+        
+        .filter-container {
+          display: flex;
+          flex-direction: column;
+          gap: 0.8rem;
+          
+          @media (min-width: 768px) {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-end;
+          }
+        }
+        
+        .filter-inputs {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.8rem;
+        }
+        
+        .filter-actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-top: 0.5rem;
+          
+          @media (min-width: 768px) {
+            margin-top: 0;
+            justify-content: flex-end;
+          }
+        }
+        
+        .filter-item {
+          display: flex;
+          flex-direction: column;
+          gap: 0.3rem;
+          
+          label {
+            font-size: 0.8rem;
+            color: $text-very-light;
+          }
+          
+          input {
+            padding: 0.4rem;
+            border-radius: 4px;
+            border: 1px solid $border-color;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: $text-color;
+            font-size: 0.9rem;
+          }
+        }
+        
+        .firebase-button.filter-reset {
+          background-color: $secondary-color;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+          
+          &:hover {
+            background-color: $secondary-dark;
+          }
+          
+          &:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+          }
+        }
+        
+        .firebase-button.export-excel {
+          background-color: $button-export-bg;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.9rem;
+          
+          &:hover {
+            background-color: $accent-dark;
+          }
+          
+          &:disabled {
+            background-color: $accent-light;
+            cursor: not-allowed;
+          }
+        }
+      }
+      
+      .stats-summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $divider-color;
+        
+        @media (max-width: 768px) {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+        
+        .stat-item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          
+          .stat-label {
+            font-size: 0.9rem;
+            color: $text-very-light;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+          }
+          
+          .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: $primary-color;
+          }
+        }
+      }
+      
+      .egg-chart {
+        margin-top: 1.5rem;
+        width: auto;
+        
+        h3 {
+          color: $primary-color;
+          margin-top: 0;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+          line-height: 1.5rem;
+        }
+      }
+    }
+    
+    .egg-data-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: fit-content;
+      min-width: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+   
+      
+      .egg-table-wrapper {
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 1rem;
+        width: auto;
+        overflow-x: auto;
+        min-width: 0;
+        
+        h3 {
+          color: $primary-color;
+          margin-top: 0;
+          margin-bottom: 1rem;
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+  
+  .egg-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+    table-layout: fixed;
+    color: $text-very-light;
+    
+    th, td {
+      padding: 0.7rem 0.6rem;
+      text-align: left;
+      border-bottom: 1px solid $divider-color;
+      font-family: 'Nunito', sans-serif;
+      
+      @media (max-width: 768px) {
+        padding: 0.5rem 0.4rem;
+        font-size: 0.9rem;
+      }
+    }
+    
+    th:nth-child(1), td:nth-child(1) {
+      width: 45%;
+    }
+    
+    th:nth-child(2), td:nth-child(2) {
+      width: 25%;
+    }
+    
+    th:nth-child(3), td:nth-child(3) {
+      width: 30%;
+      text-align: center;
+    }
+    
+    th {
+      font-weight: 600;
+      color: $primary-color;
+      font-size: 1.05rem;
+    }
+    
+    tr.current-user {
+      background-color: $table-hover-bg;
+    }
+    
+    td.actions {
+      text-align: center;
+      white-space: nowrap;
+    }
+  }
+  
+  .pagination-container {
+    margin-top: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid $divider-color;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    
+    .pagination-info {
+      color: $text-very-light;
+      font-size: 0.9rem;
+      
+      p {
+        margin: 0.2rem 0;
+      }
+      
+      .page-info {
+        color: $primary-color;
+        font-weight: 600;
+      }
+    }
+    
+    .pagination-controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      
+      .pagination-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+        background-color: $secondary-color;
+        min-width: auto;
+        
+        &:hover:not(:disabled) {
+          background-color: $secondary-dark;
+        }
+        
+        &:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+          background-color: $secondary-color;
+        }
+      }
+    }
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
+  .egg-chart {
+    margin-top: 0;
+    width: 100%;
+    // background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    
+    h3 {
+      color: $primary-color;
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+    
+    .chart-container {
+      height: 280px;
+      margin-top: 1rem;
+      position: relative;
+      margin-bottom: 2rem;        .chart-bars {
+          display: flex;
+          justify-content: space-around;
+          align-items: flex-end;
+          height: 100%;
+          gap: 8px;
+          
+          @media (max-width: 768px) {
+            gap: 4px;
+          }
+          
+          .chart-bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            flex: 1;
+            max-width: 80px;
+            min-width: 20px;
+            
+            @media (max-width: 768px) {
+              max-width: 60px;
+              min-width: 10px;
+            }
+          
+          .chart-bar {
+            width: 100%;
+            background: $chart-bar-gradient;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 0.5s ease;
+            
+            .chart-value {
+              position: absolute;
+              top: -20px;
+              left: 50%;
+              transform: translateX(-50%);
+              font-size: 0.8rem;
+              font-weight: bold;
+              color: $primary-color;
+            }
+          }
+          
+          .chart-label {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            text-align: center;
+            color: $text-very-light;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+            line-height: 1.2;
+            
+            @media (max-width: 768px) {
+              font-size: 0.65rem;
+              transform: rotate(-35deg);
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  .egg-tracker-auth {
+    text-align: center;
+    padding: 2rem;
+    
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  .access-denied {
+    text-align: center;
+    padding: 2rem;
+    background-color: rgba($error-color, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba($error-color, 0.3);
+    margin: 2rem 0;
+    
+    p {
+      margin-bottom: 1rem;
+      color: $text-very-light;
+      
+      &:first-child {
+        color: $primary-color;
+        font-weight: 600;
+      }
+      
+      strong {
+        color: $primary-color;
+      }
+    }
+    
+    .auth-buttons {
+      margin-top: 2rem;
+    }
+  }
+  
+  .firebase-button {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 1px solid transparent;
+    background-color: $button-primary-bg;
+    color: $button-primary-text;
+    font-weight: 600;
+    font-family: 'Nunito', sans-serif;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    font-size: 0.95rem;
+    
+    &.loading {
+      background-color: $primary-dark;
+      pointer-events: none;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: calc(50% - 8px);
+        right: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid #fff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+    
+    &:hover {
+      background-color: $primary-dark;
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: $primary-dark;
+    }
+    
+    &.logout {
+      background-color: $error-color;
+      
+      &:hover {
+        background-color: darken($error-color, 5%);
+      }
+    }
+    
+    &.google {
+      background-color: $primary-color;
+      padding: 0.5rem 1.5rem;
+      
+      &:hover {
+        background-color: darken($primary-dark, 5%);
+      }
+    }
+    
+    &.save {
+      background-color: $button-primary-bg;
+      
+      &:hover {
+        background-color: $primary-dark;
+      }
+    }
+    
+    &.cancel {
+      background-color: $button-secondary-bg;
+      
+      &:hover {
+        background-color: $secondary-dark;
+      }
+    }
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    margin: 0 0.2rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    
+    &:hover:not(:disabled) {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      filter: grayscale(100%);
+    }
+    
+    &.edit:hover:not(:disabled) {
+      background-color: rgba(33, 150, 243, 0.1);
+    }
+    
+    &.delete:hover:not(:disabled) {
+      background-color: $error-light;
+    }
+  }
+  
+  .error-message {
+    background-color: $error-light;
+    border-left: 4px solid $error-color;
+    color: $error-color;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-family: 'Nunito', sans-serif;
+  }
+  
+  .success-message {
+    background-color: rgba(139, 195, 74, 0.1);
+    border-left: 4px solid $success-color;
+    color: $success-color;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+    font-family: 'Nunito', sans-serif;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,441 @@
+@use '../variables' as *;
+
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.admin-modal {
+  background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+  border-radius: 12px;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(139, 195, 74, 0.3);
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  h2 {
+    margin: 0;
+    color: $primary-color;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+  }
+}
+
+.admin-content {
+  padding: 2rem;
+}
+
+.admin-loading {
+  text-align: center;
+  padding: 2rem;
+  color: $text-very-light;
+  font-size: 1.1rem;
+}
+
+.admin-user-info {
+  background-color: rgba($primary-color, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-left: 4px solid $primary-color;
+  
+  p {
+    margin: 0;
+    color: $text-very-light;
+  }
+  
+  strong {
+    color: $primary-color;
+  }
+}
+
+.admin-message {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  
+  &.success {
+    background-color: rgba($success-color, 0.1);
+    border: 1px solid $success-color;
+    color: $success-color;
+  }
+  
+  &.error {
+    background-color: rgba($error-color, 0.1);
+    border: 1px solid $error-color;
+    color: $error-color;
+  }
+}
+
+.admin-section {
+  margin-bottom: 2rem;
+  
+  h3 {
+    color: $primary-color;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+}
+
+.add-user-form {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
+  
+  .email-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: $text-very-light;
+    font-size: 1rem;
+    
+    &:focus {
+      outline: none;
+      border-color: $primary-color;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.users-list {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.user-info {
+  flex: 1;
+  
+  .user-email {
+    font-weight: 600;
+    color: $text-very-light;
+    margin-bottom: 0.25rem;
+  }
+  
+  .user-meta {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+.remove-button {
+  background: rgba($error-color, 0.1);
+  border: 1px solid rgba($error-color, 0.3);
+  color: $error-color;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  
+  &:hover:not(:disabled) {
+    background: rgba($error-color, 0.2);
+    border-color: $error-color;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.no-users {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  padding: 2rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  
+  @media (max-width: 640px) {
+    flex-direction: column;
+  }
+}
+
+// Firebase button styles for admin panel
+.firebase-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+  
+  &.google {
+    background-color: $info-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($info-color, 8%);
+    }
+  }
+  
+  &.add-user {
+    background-color: $primary-color;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: $primary-dark;
+    }
+    
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+  
+  &.logout {
+    background-color: $error-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($error-color, 8%);
+    }
+  }
+  
+  &.cancel {
+    background-color: $secondary-color;
+    color: white;
+    
+    &:hover {
+      background-color: $secondary-dark;
+    }
+  }
+  
+  &.export-button {
+    background-color: $info-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($info-color, 8%);
+    }
+  }
+  
+  &.clear-data-button {
+    background-color: $warning-color;
+    color: white;
+    
+    &:hover {
+      background-color: darken($warning-color, 8%);
+    }
+  }
+}
+
+// Styling för användardata-item
+.user-data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  .user-info {
+    flex: 1;
+    
+    .user-name {
+      font-weight: 600;
+      color: $text-very-light;
+      margin-bottom: 0.5rem;
+    }
+    
+    .user-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      
+      .stat {
+        background-color: rgba(139, 195, 74, 0.1);
+        color: $primary-color;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+    }
+  }
+  
+  .user-actions {
+    display: flex;
+    gap: 0.5rem;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+}
+
+// Styling för användardata sektion
+.user-data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  .user-info {
+    flex: 1;
+    
+    .user-name {
+      font-weight: 600;
+      color: $text-very-light;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .user-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      
+      .stat {
+        font-size: 0.875rem;
+        color: $text-light;
+        background-color: rgba(255, 255, 255, 0.05);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.clear-data-button {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 1rem;
+  white-space: nowrap;
+  
+  &:hover:not(:disabled) {
+    background-color: #ff5252;
+    transform: translateY(-1px);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+// Responsiv design för användardata
+@media (max-width: 768px) {
+  .user-data-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    
+    .user-info .user-stats {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .clear-data-button {
+      margin-left: 0;
+      align-self: stretch;
+    }
+  }
+}
