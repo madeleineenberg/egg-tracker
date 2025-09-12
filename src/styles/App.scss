@@ -37,7 +37,7 @@ body {
   display: flex;
   align-items: start;
   justify-content: center;
-  padding: 2rem;
+  padding: 10% 2rem;
   position: relative;
   
   @media (max-width: 1024px) {
@@ -116,7 +116,7 @@ body {
       }
     }
     
-    &::before {
+    &::before { 
       content: '🥚';
       font-size: 1.5rem;
       position: absolute;
@@ -258,14 +258,14 @@ main {
   @media (max-width: 1024px) {
     min-height: auto;
     padding: 1.5rem;
-    padding-right: 1.5rem;
+    // padding-right: 1.5rem;
     position: relative;
     top: -60px
   }
   
   @media (max-width: 768px) {
     padding: 1rem;
-    padding-right: 1.4rem;
+    // padding-right: 1.4rem;
     gap: 1.5rem;
 
   }
