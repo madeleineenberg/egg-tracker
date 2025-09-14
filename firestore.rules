@@ -16,7 +16,8 @@ service cloud.firestore {
     function isAdmin() {
       return request.auth != null && 
              request.auth.token.email in [
-               'madeleineenberg@gmail.com'
+               'madeleineenberg@gmail.com',
+               'andradottern@gmail.com'
                // Lägg till fler admin-emails här
              ];
     }
