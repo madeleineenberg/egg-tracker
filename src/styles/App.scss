@@ -185,6 +185,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    color: $text-color;
+    text-align: center;
   }
   
   .farm-overview {
